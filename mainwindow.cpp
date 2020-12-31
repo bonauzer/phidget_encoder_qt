@@ -75,4 +75,14 @@ void MainWindow::rawValOutput() {
     ui->lineEdit_1->setText(QString::number(p_phidget->encoderVal[1], 'f', 4)); // joint1
     ui->lineEdit_2->setText(QString::number(p_phidget->encoderVal[2], 'f', 4)); // joint2
     ui->lineEdit_3->setText(QString::number(p_phidget->encoderVal[3], 'f', 4)); // joint3
+
+    ui->lineEdit_ib_0->setText(QString::number(p_phidget->interfaceVal[0], 'f', 4)); // 0
+    ui->lineEdit_ib_1->setText(QString::number(p_phidget->interfaceVal[1], 'f', 4)); // 1
+    ui->lineEdit_ib_2->setText(QString::number(p_phidget->interfaceVal[2], 'f', 4)); // 2
+    ui->lineEdit_ib_3->setText(QString::number(p_phidget->interfaceVal[3], 'f', 4)); // 3
+    ui->lineEdit_ib_4->setText(QString::number(p_phidget->interfaceVal[4], 'f', 4)); // 4
+    ui->lineEdit_ib_5->setText(QString::number(p_phidget->interfaceVal[5], 'f', 4)); // 5
+    ui->lineEdit_ib_6->setText(QString::number(p_phidget->interfaceVal[6], 'f', 4)); // 6
+    ui->lineEdit_ib_7->setText(QString::number(p_phidget->interfaceVal[7], 'f', 4)); // 7
+
 }

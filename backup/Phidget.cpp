@@ -12,8 +12,11 @@ static int CCONV PositionChangeHandler_Encoder(CPhidgetEncoderHandle ENC, void *
 static int CCONV InputChangeHandler_InterfaceKit(CPhidgetInterfaceKitHandle IFK, void *usrptr, int Index, int State);
 static int CCONV OutputChangeHandler_InterfaceKit(CPhidgetInterfaceKitHandle IFK, void *usrptr, int Index, int State);
 static int CCONV SensorChangeHandler_InterfaceKit(CPhidgetInterfaceKitHandle IFK, void *usrptr, int Index, int Value);
+//static int CCONV PhidgetInterfaceKit_getSensorRawValue (CPhidgetInterfaceKitHandle IFK, int Index, int RawValue);
+//static void CCONV onVoltageChange(CPhidgetInterfaceKitHandle ch, void * ctx, double voltage);
 
 Phidget* phdg;
+int getValue[8];
 
 //*/////////////////////////////////////////////
 //*/////////// Phidget Board ///////////////////
@@ -63,14 +66,14 @@ bool Phidget::Init()
     for(int i=0; i<NUM_BOARD_INT; i++)
     {
         mi[i].hBoard = NULL;
-        mi[i].nADC[0] = 0;
-        mi[i].nADC[1] = 0;
-        mi[i].nADC[2] = 0;
-        mi[i].nADC[3] = 0;
-        mi[i].nADC[4] = 0;
-        mi[i].nADC[5] = 0;
-        mi[i].nADC[6] = 0;
-        mi[i].nADC[7] = 0;
+        mi[i].nADC[0] = 0.0;
+        mi[i].nADC[1] = 0.0;
+        mi[i].nADC[2] = 0.0;
+        mi[i].nADC[3] = 0.0;
+        mi[i].nADC[4] = 0.0;
+        mi[i].nADC[5] = 0.0;
+        mi[i].nADC[6] = 0.0;
+        mi[i].nADC[7] = 0.0;
         mi[i].nID = 99999;
     }
 
@@ -79,7 +82,8 @@ bool Phidget::Init()
 //    me[2].nSerialNo = 344112; // Left, Right - Translation
 //    mi[0].nSerialNo = 443239; // Left, Right - grasper (ADC)
 
-    me[0].nSerialNo = 507142; // Bo phidget board serial
+    me[0].nSerialNo = 507142; // Bo phidget encoder board serial num
+    mi[0].nSerialNo = 443254; // Bo phidget interfase board serial num
 
     int result;
     const char *err;
@@ -205,6 +209,7 @@ int CCONV AttachHandler(CPhidgetHandle h, void *userptr)
         {
             phdg->mi[i].hBoard = (CPhidgetInterfaceKitHandle)h;
             phdg->mi[i].nID = i;
+            qDebug("Interface board %10d attached! \n", serialNo);
             break;
         }
     }
@@ -287,6 +292,8 @@ int CCONV OutputChangeHandler_InterfaceKit(CPhidgetInterfaceKitHandle IFK, void 
     return 0;
 }
 
+
+
 //callback that will run if the sensor value changes by more than the OnSensorChange trigger.
 //Index - Index of the sensor that generated the event, Value - the sensor read value
 int CCONV SensorChangeHandler_InterfaceKit(CPhidgetInterfaceKitHandle IFK, void *usrptr, int Index, int Value)
@@ -294,10 +301,22 @@ int CCONV SensorChangeHandler_InterfaceKit(CPhidgetInterfaceKitHandle IFK, void 
     //printf("Sensor: %d > Value: %d\n", Index, Value);
     for(int i=0; i<NUM_BOARD_INT; i++)    {
         if(IFK == phdg->mi[i].hBoard)        {
-            phdg->mi[i].nADC[Index] = Value;
+//            for(int j=0; j<8; j++) {
+//                CPhidgetInterfaceKit_getSensorValue(IFK,j, &getValue[j]);
+//            }
+            CPhidgetInterfaceKit_getSensorValue(IFK,Index, &getValue[Index]);
+            phdg->mi[i].nADC[Index] = getValue[Index];
+
+//            phdg->mi[i].nADC[Index] = Value;
             break;
         }
     }
     return 0;
 }
 
+
+//
+
+//static void CCONV onVoltageChange(PhidgetVoltageInputHandle ch, void * ctx, double voltage) {
+//	printf("Voltage: %lf\n", voltage);
+//}

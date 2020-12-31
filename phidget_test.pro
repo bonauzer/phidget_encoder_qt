@@ -10,10 +10,11 @@ CONFIG += c++11
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-#LIBS += -L/usr/local/lib -lGLU
-LIBS += /usr/lib/libphidget21.so
+LIBS += -L/usr/local/lib -lGLU
+LIBS += /usr/local/lib/libphidget22.so
+#LIBS += /usr/lib/libphidget21.so
 #LIBS += /usr/lib/libdxl_x64_cpp.so
-##LIBS += /usr/lib/libEposCmd.so
+#LIBS += /usr/lib/libEposCmd.so
 #LIBS += /usr/lib/libHD.so.3.4
 #LIBS += /usr/lib/libHDU.a
 
@@ -23,16 +24,18 @@ LIBS += /usr/lib/libphidget21.so
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Phidget22.cpp \
     main.cpp \
     mainwindow.cpp \
-    Phidget.cpp \
+    # Phidget.cpp \
     phidgetRead.cpp \
     threadTest.cpp
 
 HEADERS += \
+    Phidget22.h \
     main.h \
     mainwindow.h \
-    Phidget.h \
+    # Phidget.h \
     phidgetRead.h \
     threadTest.h
 
@@ -43,3 +46,21 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+release:DESTDIR = $$PWD/build/release
+release:OBJECTS_DIR = $$PWD/build/release/.obj
+release:MOC_DIR = $$PWD/build/release/.moc
+release:RCC_DIR = $$PWD/build/release/.rcc
+release:UI_DIR = $$PWD/build/release/.ui
+
+debug:DESTDIR = $$PWD/build/debug
+debug:OBJECTS_DIR = $$PWD/build/debug/.obj
+debug:MOC_DIR = $$PWD/build/debug/.moc
+debug:RCC_DIR = $$PWD/build/debug/.rcc
+debug:UI_DIR = $$PWD/build/debug/.ui
+
+profile:DESTDIR = $$PWD/build/profile
+profile:OBJECTS_DIR = $$PWD/build/profile/.obj
+profile:MOC_DIR = $$PWD/build/profile/.moc
+profile:RCC_DIR = $$PWD/build/profile/.rcc
+profile:UI_DIR = $$PWD/build/profile/.ui

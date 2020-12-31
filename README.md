@@ -1,1 +1,0 @@
-phidget_encoder_qt

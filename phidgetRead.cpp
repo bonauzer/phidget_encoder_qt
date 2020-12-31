@@ -3,7 +3,7 @@
 
 phidgetRead::phidgetRead()
 {
-    pPhidget = new Phidget();
+    pPhidget = new Phidget22();
     init();
 }
 
@@ -16,6 +16,7 @@ phidgetRead::~phidgetRead()
 int phidgetRead::init(){
 
     for (int i=0; i<4; i++) encoderVal[i] = 0;
+    for (int i=0; i<8; i++) interfaceVal[i] = 0;
 
     if(!pPhidget->Init())
         return -1;
@@ -27,10 +28,10 @@ int phidgetRead::init(){
 
 void phidgetRead::UpdateStates()
 {
-    encoderVal[0]    = static_cast<double>(pPhidget->me[0].nPos[0])*TIC_TO_ANGLE;
-    encoderVal[1]    = static_cast<double>(pPhidget->me[0].nPos[1])*TIC_TO_ANGLE;
-    encoderVal[2]    = static_cast<double>(pPhidget->me[0].nPos[2])*TIC_TO_ANGLE;
-    encoderVal[3]    = static_cast<double>(pPhidget->me[0].nPos[3])*TIC_TO_ANGLE;
+    for (int i=0; i<4; i++) encoderVal[i] = static_cast<double>(pPhidget->me[0].nPos[i])*TIC_TO_ANGLE;
+    for (int i=0; i<8; i++) interfaceVal[i] = static_cast<double>(pPhidget->mi[0].nADC[i]);
+
 //    qDebug("%f, %f, %f, %f", encoderVal[0], encoderVal[1], encoderVal[2], encoderVal[3]);
+//    qDebug("%f, %f, %f, %f", interfaceVal[4], interfaceVal[5], interfaceVal[6], interfaceVal[7]);
 
 }
